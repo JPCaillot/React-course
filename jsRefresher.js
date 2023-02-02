@@ -13,7 +13,7 @@
  //export default ___ => imports will always get this element, despite of how it's called on the import
  //import {...} from ... => it's important to use {} to get the specific element from file
  //import {... as ...} => setting an alias
- //import * as bundled => will create an object from the export
+ //import * as anyAlias => will create an object from the export
  
  //Reviewing Classes 
  class Human {
@@ -90,3 +90,31 @@ console.log(num1, num3); // 1 3
 person4 = {name:'Max', age: 28};
 ({name} = person4); // the name of the property matters
 console.log(name); // 'Max'
+
+//Primitive and Reference Types
+//Number - String - Boolean (Primitive)
+//When copied in another variable, the value will be passed
+const number32 = 1;
+const number33 = number32;
+console.log(number33); // 1
+//Array - Object (Reference)
+//When copied, only the pointer for the original variable will be stored
+const person34 = {
+    name: 'Max'
+};
+const secondPerson34 = person34;
+person34.name = 'Manu'; 
+console.log(secondPerson34); // [object Object] {name: 'Manu'}
+//The value of the second variable will change along with the first!
+//this can be solved by using Spread operator
+const secondPerson35 = {
+    ...person34
+};
+console.log(secondPerson35); // [object Object] {name: 'Max'}
+
+//Array Functions (sort, map...)
+const numbers5 = [1, 2, 3];
+const doubleNumArray = numbers5.map((num) => {
+    return num * 2;
+});
+console.log(doubleNumArray); // [2, 4, 6]
