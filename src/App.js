@@ -1,4 +1,5 @@
-import Expenses from "./components/Expenses";
+//import React from 'react'; --old way: it needed this import in all JSX-using files
+import Expenses from "./components/Expenses/Expenses";
 
 function App() {
   const expenses = [
@@ -27,6 +28,15 @@ function App() {
       date: new Date(2021, 5, 12),
     },
   ];
+
+  // old React way of doing this:
+  // return React.createElement(
+  //  'div',
+  //  {},
+  //  React.createElement('h2', {}, "Let's get started!"),
+  //  React.createElement(Expenses, {items: expenses});
+  // );
+  // Arguments of createElement(): element, properties, content, [content1, content2...]
 
   return (
     <div>
