@@ -1,3 +1,5 @@
-.item li {
+.itemList li {
     border-color: gray;
+    border-width: 0.2rem;
+    list-style-type: none;
 }
