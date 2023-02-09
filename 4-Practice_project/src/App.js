@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import styles from './App.module.css';
 
 import UserInput from "./Components/UserInput";
@@ -16,10 +16,10 @@ function App() {
   };
 
   return (
-    <div className={styles.body}>
+    <Fragment className={styles.body}>
       <UserInput onAddEntry={newEntryHandler} />
       <EntryList items={completeList}/>
-    </div>
+    </Fragment>
   );
 }
 
