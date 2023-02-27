@@ -3,45 +3,9 @@ import { createSlice, configureStore } from "@reduxjs/toolkit"; //createReducer 
 // import redux from 'redux';
 // const redux = require("redux");
 
-const initialCounterState = { counter: 0, showCounter: true };
+import counterReducer from './counterSlice';
 
-const counterSlice = createSlice({
-  //slice of our global state
-  name: "counter", //needed, value up to you
-  initialState: initialCounterState,
-  reducers: {
-    increment(state) {
-      state.counter++; //in toolkit this is allowed, cause the inner workings will identify this and clone the state with the changes in an immutable way
-    },
-    decrement(state) {
-      state.counter--;
-    },
-    increase(state, action) {
-      //the action is also in the other two, but they don't need it
-      state.counter = state.counter + action.payload; //will be defined automatically
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
-});
-
-const initialAuthState = {
-  isAuthenticated: false,
-};
-
-const authSlice = createSlice({
-  name: "authentication",
-  initialState: initialAuthState,
-  reducers: {
-    login(state) {
-      state.isAuthenticated = true;
-    },
-    logout(state) {
-      state.isAuthenticated = false;
-    },
-  },
-});
+import authReducer from './authSlice';
 
 // const counterReducer = (state = initialState, action) => {
 //   if (action.type === "increment") {
@@ -86,8 +50,8 @@ const authSlice = createSlice({
 const store = configureStore({
   // reducer: counterSlice.reducer // for many reducers, this could be an object, uniting them in a single object
   reducer: { 
-    counter: counterSlice.reducer, 
-    auth: authSlice.reducer 
+    counter: counterReducer, 
+    auth: authReducer 
   },
 });
 
@@ -100,8 +64,5 @@ const store = configureStore({
 // store.subscribe(counterSubscriber);
 
 // store.dispatch({ type: "increment" });
-
-export const counterActions = counterSlice.actions; //toolkit creates those methods for us with .actions
-export const authActions = authSlice.actions;
 
 export default store; // this needs to be provided - what does 'provide' mean?
