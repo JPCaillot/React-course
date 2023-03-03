@@ -1,20 +1,28 @@
 // import { useEffect, useState } from 'react';
-import { useLoaderData, json } from "react-router-dom"; //access to closest loader data
+import { useLoaderData, json, defer, Await } from "react-router-dom"; //access to closest loader data
+import { Suspense } from "react";
 
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
-  const data = useLoaderData(); // pay attention if you're extracting the whole object or the key you want
+  const { events } = useLoaderData(); // pay attention if you're extracting the whole object or the key you want
 
-  if (data.isError) {
-    // return <p>{data.message}</p>
-  }
-  const events = data.events;
+  return (
+    <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p> /*shows fallback while waiting for data to arrive*/}>
+      <Await resolve={events}>
+        {(loadedEvents) => <EventsList events={loadedEvents} /> /* this will execute after the value is obtained */}
+      </Await>
+    </Suspense>
+  );
+  // if (data.isError) {
+  //   // return <p>{data.message}</p>
+  // }
+  // const events = data.events;
 
-  return <EventsList events={events} />;
+  // return <EventsList events={events} />;
 }
 
-export async function loader() {
+async function loadEvents() {
   //THIS IS EXECUTED IN THE BROWSER = COMPATIBLE WITH APIs, BUT NOT REACT HOOKS - NOT A COMPONENT
   const response = await fetch("http://localhost:8080/events");
 
@@ -25,7 +33,7 @@ export async function loader() {
     //   status: 500,
     // }); //router detects the closest error element if its thrown in a loader
 
-    throw json({ message: "Could not fetch events." }, { status: 500, }); //converts data automatically
+    throw json({ message: "Could not fetch events." }, { status: 500 }); //converts data automatically
   } else {
     //normal way we always did:
     // const resData = await response.json();
@@ -36,8 +44,17 @@ export async function loader() {
     // return res;
 
     //showing that this could be done because router supports responses, and so this is accepted:
-    return response;
+    //return response; - done without deferring
+    const resData = await response.json();
+    return resData.events;
   }
+}
+
+export function loader() {
+  // the above function was taken out so this could be sync
+  return defer({
+    events: loadEvents(), // a promise that will eventually resolve to another value
+  })
 }
 
 //STANDARD FETCH

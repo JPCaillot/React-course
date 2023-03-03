@@ -24,11 +24,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import EditEventPage from "./pages/EditEventPage";
 import ErrorPage from "./pages/Error";
 import EventRoot from "./pages/EventRoot";
-import EventsDetailPage from "./pages/EventsDetailPage";
-import EventsPage, {loader as eventsLoader} from "./pages/EventsPage";
+import EventsDetailPage, { loader as eventDetailLoader, action as deleteEventAction } from "./pages/EventsDetailPage";
+import EventsPage, { loader as eventsLoader } from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
 import NewEventPage from "./pages/NewEventPage";
 import Root from "./pages/Root";
+import  { action as manipulateEventAction } from './components/EventForm';
+import NewsletterPage, { action as newsletterAction } from './pages/Newsletter';
 
 const router = createBrowserRouter([
   {
@@ -56,10 +58,27 @@ const router = createBrowserRouter([
             //   }
             // },
           },
-          { path: ":someId", element: <EventsDetailPage /> },
-          { path: "new", element: <NewEventPage /> },
-          { path: ":someId/edit", element: <EditEventPage /> },
+          {
+            path: ':someId',
+            id: 'event-detail',
+            loader: eventDetailLoader, //nested routes so this data goes to both pages
+            children: [
+              {
+                index: true,
+                element: <EventsDetailPage />,
+                action: deleteEventAction
+              },
+              { path: "edit", element: <EditEventPage />, action: manipulateEventAction },
+
+            ]
+          },
+          { path: "new", element: <NewEventPage />, action: manipulateEventAction },
         ],
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
       },
     ],
   },
