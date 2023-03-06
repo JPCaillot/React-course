@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Outlet, useLoaderData, useNavigation, useSubmit } from 'react-router-dom';
+import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
+// import { useNavigation } from 'react-router-dom';
 
 import MainNavigation from '../components/MainNavigation';
 import { getTokenDuration } from '../util/auth';
