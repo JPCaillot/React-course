@@ -26,7 +26,7 @@ function MeetupDetails(props) {
 
 export async function getStaticPaths() {
   const client = await MongoClient.connect(
-    "mongodb+srv://jpcaillot:kj399yc@cluster0.wi8lhio.mongodb.net/meetups?retryWrites=true&w=majority"
+    `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.wi8lhio.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
   );
   //returns a promise
   const db = client.db(); //gets hold of the database
@@ -40,7 +40,7 @@ export async function getStaticPaths() {
   client.close();
 
   return {
-    fallback: false,
+    fallback: 'blocking', //doesn't show anything till it's loaded or true that would return an empty page right away to get the correct one once it's loaded
     paths: meetups.map((meetup) => ({
       params: { meetupId: meetup._id.toString() },
     })),
@@ -65,7 +65,7 @@ export async function getStaticProps(context) {
   const meetupId = context.params.meetupId;
 
   const client = await MongoClient.connect(
-    "mongodb+srv://jpcaillot:kj399yc@cluster0.wi8lhio.mongodb.net/meetups?retryWrites=true&w=majority"
+    `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.wi8lhio.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
   );
   //returns a promise
   const db = client.db(); //gets hold of the database

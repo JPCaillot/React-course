@@ -10,7 +10,7 @@ async function handler(req, res) {
     const { title, image, address, description } = data;
 
     const client = await MongoClient.connect(
-      "mongodb+srv://jpcaillot:kj399yc@cluster0.wi8lhio.mongodb.net/meetups?retryWrites=true&w=majority"
+      `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.wi8lhio.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
     );
     //returns a promise
     const db = client.db(); //gets hold of the database

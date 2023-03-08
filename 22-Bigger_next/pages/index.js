@@ -63,7 +63,7 @@ export async function getStaticProps() {
   //fetch data from an API
   //fetch('/api/meetups'); -- since this code will not be exposed, we can simply execute the code instead of making requests
   const client = await MongoClient.connect(
-    "mongodb+srv://jpcaillot:kj399yc@cluster0.wi8lhio.mongodb.net/meetups?retryWrites=true&w=majority"
+    `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.wi8lhio.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
   );
   //returns a promise
   const db = client.db(); //gets hold of the database
