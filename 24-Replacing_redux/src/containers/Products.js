@@ -1,17 +1,27 @@
-import React, {useContext} from 'react';
+import React from 'react';
+// import React, {useContext} from 'react';
 // import { useSelector } from 'react-redux';
 
 import ProductItem from '../components/Products/ProductItem';
-import {ProductsContext} from '../context/products-context'
+// import {ProductsContext} from '../context/products-context'
+import { useStore } from '../hooks-store/store';
 import './Products.css';
 
 const Products = props => {
+  //redux
   // const productList = useSelector(state => state.shop.products);
-  const productList = useContext(ProductsContext).products;
+
+  //context
+  // const productList = useContext(ProductsContext).products;
+
+  //custom useStore hook
+  const state = useStore()[0];
 
   return (
     <ul className="products-list">
-      {productList.map(prod => (
+      {/* {productList.map(prod => ( -- redux/context*/}
+      {state.products.map(prod => (
+      // globalState gets a products key by initStore in products-store
         <ProductItem
           key={prod.id}
           id={prod.id}
